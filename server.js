@@ -4,6 +4,13 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
+const userRoutes = require("./routes/UserRoutes");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
 mongoose
 	.connect(process.env.MONGO_URI)
 	.then(() => console.log("DB Connection Successfull!"))
@@ -11,10 +18,7 @@ mongoose
 		console.log("Sorry, an error occurred with the DB connection!", err);
 	});
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
+app.use("/api/user", userRoutes);
 
 app.listen(process.env.PORT || 5000, () => {
 	console.log("Backend server is running!");
